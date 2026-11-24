@@ -1,0 +1,11 @@
+{
+  "name": "scoreforge-composer-agent",
+  "version": "1.0.0",
+  "description": "Score Forge Composer Agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node app/build.mjs",
+    "test": "node --test app/tests/*.test.mjs"
+  }
+}

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+functions/site/
+functions/node_modules/
+functions/.env*
+!functions/.env.example
+.firebase/
+.firebaserc
+*.log
+.DS_Store
+*service-account*.json
+*credentials*.json
+converter/.env
+converter/__pycache__/
+converter/.venv/
+converter/data/

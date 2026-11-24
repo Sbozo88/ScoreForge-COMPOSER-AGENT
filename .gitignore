@@ -1,0 +1,40 @@
+# Craft Anything / Harness artifacts & logs
+capture/
+checks/
+craft.json
+feed.json
+build-activity.log
+inbox/
+investigation.cany/
+reference/
+transcript.json
+usage.json
+firebase-debug.log
+
+# Dependencies
+node_modules/
+app/node_modules/
+app/functions/node_modules/
+app/converter/.venv/
+app/converter/__pycache__/
+app/converter/data/
+
+# Build outputs
+dist/
+app/dist/
+app/functions/site/
+
+# Firebase & environment
+.firebase/
+app/.firebase/
+.firebaserc
+app/.firebaserc
+*.env*
+!app/functions/.env.example
+!app/converter/.env.example
+
+# Credentials & system files
+*service-account*.json
+*credentials*.json
+.DS_Store
+*.log
