@@ -21,4 +21,4 @@ COPY *.py /srv/
 RUN useradd --create-home --uid 10001 score && mkdir /data && chown score:score /data && /opt/audiveris/bin/Audiveris -help
 USER score
 EXPOSE 8080
-CMD ["uvicorn","server:app","--host","0.0.0.0","--port","8080","--workers","1","--limit-concurrency","16"]
+CMD ["sh","-c","uvicorn server:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1 --limit-concurrency 16"]

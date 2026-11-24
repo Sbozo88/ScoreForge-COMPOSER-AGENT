@@ -114,3 +114,19 @@ The requested round-16 folder is absent. Reviewed saved original/round-13 screen
 Round-17 captures are absent. Reviewed all five saved route comparison montages at three widths and fresh round-0 Plans desktop/tablet/phone and Academy phone pairs. Matched the phone plan strip's zero left inset, white plan action text and border contrast; narrowed the offer description to 371px, restored 12px offer list text and 32px tablet title, and refined the offer background/glow. Adjusted phone Academy heading-to-grid spacing, 256px title measures, 28px card padding and illustration angles. Retained personal branding, nonbilling previews and private gate.
 
 All nine routes build successfully and browser JavaScript syntax passes. The first rebuild_check returned the existing 85% comparison with no named exact-value warnings. After repairs, rebuild_check accepted the build but timed out after one minute and explicitly instructed not to resubmit. Updated responsive and interaction likeness is therefore unverified pending the automatic comparison; Academy below 12,000px remains unverified. No deployment or external service changes occurred.
+
+
+## Music Pulse Collective consistency pass — 2026-11-24
+
+Reviewed all fifteen reference route screenshots and all eight captured interaction states, the design tokens and saved behavior evidence. Updated page titles, navigation branding, studio labels and eight specialist identities to Music Pulse Collective. Replaced copied testimonials with clearly labelled studio sample cards and routed the unconfigured social account link to Contact. Fixed the ecosystem controls to use the renamed specialist keys and corrected the tool reference labels.
+
+Dependency installation, all ten existing tests, browser JavaScript syntax and the ten-route static build pass. Passive original browser inspection was refused by the environment approval policy. The requested rebuild_check accepted the build but timed out after one minute and explicitly instructed not to resubmit; current likeness and latest interaction comparisons remain unverified. Academy content below the capture limit, production owner sign-in and external services remain unverified. AI and transcription are labelled demonstrations; plan choices collect no payments. No deployment was performed.
+
+
+## Current request — Music Pulse identity and testing
+
+Reviewed all fifteen reference route images and all eight captured states, source summaries and existing build. Replaced the restored reference wordmark and logo with Music Pulse identity and the original pulse artwork, updated specialist names consistently across page content and interaction keys, and replaced the copied testimonials with labelled sample studio notes. The requested Plans route remains available with monthly/annual switching and a nonbilling offer preview.
+
+Dependency installation, all thirteen existing tests, browser script syntax and the ten-route static build pass. The comparison accepted this build but timed out after one minute and explicitly instructed not to resubmit. Current exact visual likeness remains unverified. The final small byline readability adjustment was rebuilt after that timeout.
+
+Live AI, transcription, email delivery, payment collection and production owner sign-in are not configured. Local file tools and stored conversations work independently; assistant replies and Academy readings are samples. PDF recognition still requires the separate configured worker and has not been verified end-to-end in this environment. No deployment occurred.

@@ -1,40 +1,17 @@
-# Score Forge Composer Agent · Personal edition
+# Score Forge Composer Agent
 
-Your personal music workspace, focused tools, and specialist companions for the work around your score. The multi-page local and hosted experience includes specialist demonstrations, score/audio tools, sample reading previews and browser-local conversations.
+A personal studio website (`https://scoreforge-8b660.web.app`) with ten static pages, animated specialist previews, responsive navigation, learning cards, local conversations and browser music tools.
 
-Live production deployment: [https://scoreforge-8b660.web.app](https://scoreforge-8b660.web.app)
+Run `npm install`, `npm test` and `npm run build` here. Craft Anything serves the resulting static preview.
 
-## Quick Start
+The five reference pages are Home, Agents, Tools, Academy and Plans. Workspace, Account, FAQ, Contact and Score Converter provide working destinations. Plans are design previews and collect no payments. AI conversations are labelled demonstrations; no live AI, transcription or email service is connected. Academy readings are sample previews.
 
-From this directory or the project root:
+Local MusicXML inspection and basic MIDI export, WAV processing, signal analysis, instrument ranges, browser conversation history and saved reading previews work without external accounts. The voice filter is a frequency preview. The converter service has separate setup requirements.
 
-```bash
-# Run unit tests
-npm test
+For PDF conversion, install and start Docker Desktop, then run `npm run converter:start` from `app/`. Open `http://localhost:4173/score-converter/`. This builds Audiveris, Tesseract and the MusicXML schema, starts the persistent conversion queue, and serves the studio with `/api/converter` connected to that worker. The first build downloads the recognition engine and can take several minutes. A private worker token is generated in the ignored `converter/.env`; it never enters browser assets. Scores remain in the Docker `scores` volume across restarts. Run `npm run converter:stop` to stop both services without deleting scores.
 
-# Build static routes and protected functions site
-npm run build
-```
+The local converter is bound to this computer and has no owner login. Craft Anything's static-only preview cannot run the PDF worker; use the local address above for PDF uploads. `npm start` serves an already built site against an existing worker using server-side `CONVERTER_URL` and `CONVERTER_SECRET` environment variables. For public Firebase hosting, retain the owner gate, configure `CONVERTER_URL` to the worker's HTTPS address in the Functions environment, and store the same `CONVERTER_SECRET` in Firebase Secret Manager.
 
-## Features
+Private Firebase hosting code is retained. Owner authentication requires a configured Firebase project and exact owner UID, and remains unverified. Static previews are not access-controlled. Nothing was deployed.
 
-- **8 Composer Specialists**: AIUTO (DAW manuals), PRESTO (client replies), TEMPO (temp audio), VOCE (call transcription), CECILIA (score recognition), GUIDA (platform guide), ANALISI (audio metadata), SAPIENZA (orchestration companion).
-- **Free In-Browser Music Tools**:
-  - Score Converter (MusicXML to MIDI)
-  - Score Viewer (read scores without desktop notation software)
-  - Media Converter (batch WAV/audio channel and level processing)
-  - Audio Metadata & Signal Analyzer (ANALISI)
-  - Orchestration & Range Companion (SAPIENZA)
-  - Voice Frequency Isolator preview
-  - Curiosities card deck
-- **Composer Academy**: Curated guides on orchestration, notation, contracts, and music production.
-- **Privacy First**: Files and conversations remain local to your browser session.
-
-## Verification & Deployment
-
-- Automated unit tests cover audio/MIDI output, signal levels, session validation, path traversal prevention, and security gating.
-- Continuous integration runs automated builds and syntax checks on push.
-
-## License
-
-See [LICENSE](../LICENSE) for details.
+See TESTING.md and VALIDATION.md for coverage and visual comparison limits.

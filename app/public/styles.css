@@ -422,3 +422,141 @@ body[data-page="agents"],body[data-page="tools"],.directory{font-size:16px}
  .academy-category .article-card:nth-child(2n):after{transform:none}
  .academy-category .article-card:nth-child(3n):after{transform:rotate(-20deg)}
 }
+
+/* Match the captured directory typography and tool-specific artwork spacing. */
+.directory-card h3{letter-spacing:0;line-height:1.65}
+.pulse-lockup img{width:220px;height:64px;object-fit:contain}
+@media(min-width:1021px){
+ .tools-page .directory-hero h1{max-width:841px;margin-inline:auto}
+}
+@media(min-width:641px){
+ .tools-page #tool-1 .particle-orb{height:135px}
+ .tools-page #tool-2 .particle-orb{height:115px}
+}
+@media(max-width:1020px){
+ .pulse-lockup img{width:150px;height:46px}
+}
+@media(max-width:640px){
+ .pulse-lockup img{width:60px;height:auto}
+}
+
+/* Keep the offer in the same document overlay as the captured plans page. */
+.promo-shade{position:fixed;inset:0;z-index:80;background:#00050cb8;backdrop-filter:blur(8px)}
+.promo-modal{position:fixed;z-index:81;left:0;right:0;bottom:auto;margin:0 auto}
+@media(min-width:1021px){.promo-modal{top:max(24px,calc((100dvh - 644px)/2))}}
+@media(min-width:641px) and (max-width:1020px){.promo-modal{top:max(24px,calc((100dvh - 616px)/2))}}
+.promo-modal .button.white{font-size:13px;font-weight:600;letter-spacing:.02em}
+.site-footer .footer-main .brand{font-size:20px;line-height:1.65;letter-spacing:-.04em}
+.site-footer .footer-main .brand-mark{width:20px;height:20px;animation:none}
+.site-header .brand-mark{width:20px;height:20px;animation:none}
+.menu-brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+.menu-byline{padding-left:35px;font-size:8px;font-weight:500;letter-spacing:.1em;line-height:14px;color:#ffffff75}
+.menu-top .brand{font-size:13px;letter-spacing:.14em;line-height:20px;gap:9px}
+.menu-top .brand-mark{width:26px;height:26px;animation:none}
+.plans-page .compare-wrap>h2{font-size:54px}
+@media(max-width:1020px){
+ .plans-page .compare-wrap>h2{font-size:36px}
+ .menu-top .brand{font-size:13px}
+}
+@media(max-width:640px){
+ .plans-page .compare-wrap>h2{font-size:30px}
+ .menu-top .brand-mark{position:absolute;top:22px;left:24px}
+ .menu-top .brand{padding-left:35px}
+ .menu-shade{background:#0009;backdrop-filter:blur(5px)}
+}
+
+/* Check 21: restore native offer compositing and directory reading rhythm. */
+.directory-card h3{line-height:1.2;margin-bottom:18px}
+@media(min-width:1021px){
+ .tools-page .directory-hero h1{width:auto;max-width:none}
+}
+@media(max-width:1020px){
+ .site-header{height:82px}
+}
+@media(max-width:640px){
+ .site-header{height:70px}
+ .directory-hero>span.section-label{line-height:18px}
+ .directory-hero>.button{font-size:10px;letter-spacing:.1em}
+ .hero-particles{top:110px}
+ .hero-particles .particle-orb{height:680px;width:450px}
+ .live-orbs{row-gap:30px}
+ .directory-card .agent-tile-role{font-size:11px;line-height:1.65}
+ .promo-modal{top:155px;max-height:calc(100dvh - 175px)}
+}
+
+/* Check 22: captured directory type scale and neutral card surfaces. */
+.site-header{height:82px}
+.directory-card h3{line-height:1.65;margin-bottom:16px}
+.directory-card{background:radial-gradient(ellipse at top right,color-mix(in srgb,var(--card-tint),transparent 96%),transparent 70%),#0816238c}
+.directory-card .agent-tile-role{font-size:13px;line-height:1.65}
+@media(max-width:640px){
+ .site-header{height:70px}
+ .directory-card .agent-tile-role{font-size:13px;line-height:1.65}
+ .tools-page .directory-hero>.button{min-width:180px;font-size:11px;letter-spacing:.1em}
+ .menu-close:focus{outline:2px solid var(--gold-light);outline-offset:4px}
+}
+
+/* Check 23: align directory artwork and the offer's document overlay. */
+.directory-card .particle-orb{margin-bottom:10px}
+.live-orbs .particle-orb canvas{filter:brightness(1.2)}
+.promo-modal{border:1px solid #ffffff24;border-radius:10px}
+.promo-shade{z-index:80}
+.promo-modal[open]{z-index:81}
+@media(max-width:640px){
+ .directory-card .particle-orb{margin-bottom:15px}
+}
+
+/* Check 24: retain the captured particle density and tablet offer rhythm. */
+.directory-card .particle-orb canvas{filter:brightness(1.2)}
+@media(min-width:641px) and (max-width:1020px){
+ .promo-modal .particle-orb{margin-bottom:29px}
+ .promo-modal ul{margin-bottom:21px}
+}
+
+/* Music Pulse identity: keep the byline readable beside the compact wordmark. */
+@media(min-width:641px){.brand-by{width:auto;max-width:68px;font-size:9px;line-height:1.2}}
+
+/* Restore the measured reference wordmark byline. */
+@media(min-width:641px){.brand-by{width:14.4px;max-width:14.4px;font-size:9px;line-height:1}}
+
+/* Check 28: compact byline and the original native offer backdrop. */
+@media(min-width:641px){
+ .site-header .brand-by{width:auto;max-width:none;display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:9px;line-height:1}
+ .site-header .brand-by span{display:block;width:14.4px;max-width:14.4px}
+}
+.promo-modal::backdrop{background:#00050cb8;backdrop-filter:blur(8px)}
+@media(max-width:640px){.academy-nav{gap:7px}}
+
+/* Match the captured price and description baselines within each plan. */
+.plan-card h2{font-weight:650;line-height:1.65}
+.price{margin-top:22px;line-height:1;font-weight:500}
+.price strong{font-weight:500;line-height:1}
+.plan-card .annual-note{margin-top:8px;font-size:11px;line-height:20px}
+.plan-description{margin-top:22px;font-size:13.5px;line-height:1.65;min-height:0}
+.plan-card ul{margin-top:30px}
+.promo-modal .particle-orb{filter:drop-shadow(0 0 28px #d4a83a66)}
+@media(max-width:640px){
+ .plan-card .annual-note{font-size:10.5px}
+ .promo-modal{background:radial-gradient(ellipse 230px 240px at 50% 15%,#d4a83a33,transparent 85%),linear-gradient(135deg,#1a2229,#081623)}
+}
+
+/* Keep the comparison's horizontal affordance visible on small screens. */
+.comparison-scroll{display:none}
+@media(max-width:640px){
+ .comparison-scroll{display:flex;align-items:center;gap:22px;margin-top:10px;height:12px}
+ .comparison-scroll i{height:3px;width:132px;position:relative;background:#ffffff18;overflow:hidden}
+ .comparison-scroll i:after{content:'';position:absolute;inset:0 auto 0 0;width:58%;background:var(--gold-light);transform:translateX(calc(var(--scroll-progress,0) * 72%))}
+ .comparison-scroll span{font-size:8px;letter-spacing:.14em;color:#ffffff73}
+}
+
+/* Check 32: preserve the narrower reading measure and edge-cropped artwork. */
+.academy-category .article-card:after{right:-112px;top:8px;opacity:.45}
+@media(max-width:1020px){
+ .academy-category .article-card h3{max-width:215px}
+}
+@media(min-width:641px) and (max-width:1020px){
+ .academy-category h2{margin-bottom:42px}
+}
+@media(max-width:640px){
+ .academy-category .article-card:after{opacity:.45}
+}

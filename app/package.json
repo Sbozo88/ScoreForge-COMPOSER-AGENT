@@ -5,6 +5,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "node converter/preview.mjs",
+    "converter:start": "node converter/start.mjs",
+    "converter:stop": "docker compose --project-directory converter down",
     "build": "node build.mjs",
     "test": "node --test tests/*.test.mjs"
   }

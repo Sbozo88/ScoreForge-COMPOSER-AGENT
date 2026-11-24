@@ -1,6 +1,8 @@
 # Personal edition testing
 
-Run `npm test` and `npm run build` from `app/`. The build produces nine static preview routes plus the protected Firebase function's site directory. Craft Anything serves the local preview; do not start a development server.
+Run `npm test` and `npm run build` from `app/`. The build produces ten static preview routes plus the protected Firebase function's site directory. Craft Anything serves the static preview. PDF conversion uses the separate local service described in README.md.
+
+For a full PDF conversion check, run `npm run converter:start` with Docker Desktop running and open `http://localhost:4173/score-converter/`. Confirm that the service connects, upload a short sheet-music PDF, wait for recognition, and download MusicXML. Restart the services and verify the project persists. Automated gateway tests exercise health, multipart uploads, queued responses, authenticated downloads and foreign-origin rejection; they do not replace a real Audiveris conversion check.
 
 - Open each route and switch specialist tabs with the mouse and arrow keys.
 - Open Plans, switch monthly/annual pricing and open the offer dialog. These are design previews; selecting a plan explains that no payment is collected. No checkout or card collection should appear.

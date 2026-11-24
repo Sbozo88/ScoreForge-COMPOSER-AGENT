@@ -69,10 +69,12 @@ def edit_lyrics(root, part_id, measure_index, entries):
         index=int(entry['note']); verse=str(entry.get('verse','1'))
         if not 0<=index<len(notes) or notes[index].find('rest') is not None: raise ValueError('Lyrics require a pitched note.')
         note=notes[index]
-        for lyric in list(note.findall('lyric')):
-            if lyric.get('number','1')==verse: note.remove(lyric)
         text=entry.get('text','')
         if not isinstance(text,str) or len(text)>500: raise ValueError('Lyric syllable too long.')
+        if note.find('chord') is not None and (text or entry.get('extend')):
+            raise ValueError('Attach lyrics to the primary note in a chord, not chord tones.')
+        for lyric in list(note.findall('lyric')):
+            if lyric.get('number','1')==verse: note.remove(lyric)
         if not text and not entry.get('extend'): continue
         lyric=E.SubElement(note,'lyric',number=verse)
         syllabic=entry.get('syllabic','single')

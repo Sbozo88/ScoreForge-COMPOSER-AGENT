@@ -1,4 +1,17 @@
 services:
+  preview:
+    build:
+      context: ..
+      dockerfile: converter/Preview.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4173:4173"
+    environment:
+      CONVERTER_URL: http://score-converter:8080
+      CONVERTER_SECRET: ${CONVERTER_SECRET:?Set a random secret of at least 32 characters}
+    depends_on:
+      score-converter:
+        condition: service_healthy
   score-converter:
     build: .
     restart: unless-stopped
@@ -13,7 +26,7 @@ services:
     cpus: 4
     stop_grace_period: 30s
     healthcheck:
-      test: ["CMD", "python", "-c", "import os,urllib.request; r=urllib.request.Request('http://localhost:8080/health',headers={'Authorization':'Bearer '+os.environ['CONVERTER_SECRET']}); urllib.request.urlopen(r,timeout=5)"]
+      test: ["CMD", "python", "-c", "import json,os,urllib.request; r=urllib.request.Request('http://localhost:8080/health',headers={'Authorization':'Bearer '+os.environ['CONVERTER_SECRET']}); assert json.load(urllib.request.urlopen(r,timeout=5))['ready']"]
       interval: 30s
       timeout: 10s
       start_period: 60s
