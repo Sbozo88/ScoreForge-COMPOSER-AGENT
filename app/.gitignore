@@ -13,4 +13,5 @@ functions/.env*
 converter/.env
 converter/__pycache__/
 converter/.venv/
+converter/.local/
 converter/data/

@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node converter/preview.mjs",
     "converter:start": "node converter/start.mjs",
+    "converter:local": "node converter/start-local.mjs",
     "converter:stop": "docker compose --project-directory converter down",
     "build": "node build.mjs",
     "test": "node --test tests/*.test.mjs"

@@ -27,7 +27,7 @@ def preprocess(gray, sensitivity):
     except (RuntimeError,pytesseract.TesseractError): pass
     lines=cv2.HoughLinesP(cv2.Canny(gray,50,150),1,np.pi/1800,150,minLineLength=gray.shape[1]//5,maxLineGap=25)
     if lines is not None:
-        angles=[np.degrees(np.arctan2(y2-y1,x2-x1)) for [[x1,y1,x2,y2]] in lines if x2!=x1 and abs(np.degrees(np.arctan2(y2-y1,x2-x1)))<5]
+        angles=[np.degrees(np.arctan2(y2-y1,x2-x1)) for x1,y1,x2,y2 in np.asarray(lines).reshape(-1,4) if x2!=x1 and abs(np.degrees(np.arctan2(y2-y1,x2-x1)))<5]
         if angles:
             angle=float(np.median(angles));h,w=gray.shape
             if abs(angle)>.08:

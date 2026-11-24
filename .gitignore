@@ -16,6 +16,7 @@ node_modules/
 app/node_modules/
 app/functions/node_modules/
 app/converter/.venv/
+app/converter/.local/
 app/converter/__pycache__/
 app/converter/data/
 

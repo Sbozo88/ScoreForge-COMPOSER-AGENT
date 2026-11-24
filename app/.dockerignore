@@ -7,5 +7,6 @@ functions/node_modules
 converter/data
 **/__pycache__
 **/.venv
+**/.local
 .git
 *.log

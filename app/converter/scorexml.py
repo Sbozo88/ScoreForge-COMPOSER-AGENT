@@ -17,11 +17,22 @@ def load(path):
 def save(root, path):
     root.set('version','4.0')
     Path(path).write_bytes(E.tostring(root,xml_declaration=True,encoding='UTF-8'))
+def _schema_parser(schema_dir):
+    class LocalSchemaResolver(E.Resolver):
+        def resolve(self, url, pubid, context):
+            candidate = schema_dir / Path(url).name
+            if candidate.is_file():
+                return self.resolve_filename(str(candidate), context)
+            return None
+    parser = PARSER()
+    parser.resolvers.add(LocalSchemaResolver())
+    return parser
+
 def validate(root, lyric_expected=False):
     if root.tag!='score-partwise': raise ValueError('Only score-partwise MusicXML is supported.')
     schema=Path(os.environ.get('MUSICXML_XSD','/opt/musicxml/schema/musicxml.xsd'))
     if not schema.is_file(): raise ValueError('MusicXML 4.0 schema is missing; validation cannot complete.')
-    E.XMLSchema(E.parse(str(schema),PARSER())).assertValid(root)
+    E.XMLSchema(E.parse(str(schema),_schema_parser(schema.parent))).assertValid(root)
     warnings=[]; parts=root.findall('part'); counts=[len(p.findall('measure')) for p in parts]
     if not counts: raise ValueError('No recognized score parts.')
     if len(set(counts))>1: warnings.append('Part measure counts differ; inspect system and part continuity.')
