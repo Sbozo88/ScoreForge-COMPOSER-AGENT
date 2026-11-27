@@ -10,17 +10,14 @@ function showModal(title,html,cls=''){
  if(modal.open)modal.close();
  modal.className=cls;
  $('#modal-body').innerHTML=`<h2 id="modal-title">${title}</h2>${html}`;
- if(cls==='promo-modal'){
-  const shade=document.createElement('div');shade.className='promo-shade';shade.setAttribute('aria-hidden','true');
-  document.body.insertBefore(shade,modal);shade.onclick=()=>modal.close();
-  const background=[...document.body.children].filter(el=>el!==modal&&el!==shade&&el.tagName!=='SCRIPT');
-  const previous=background.map(el=>el.inert);background.forEach(el=>el.inert=true);
-  const returnFocus=document.activeElement;
-  modal.setAttribute('aria-modal','true');modal.show();
-  const trap=e=>{if(e.key!=='Tab')return;const controls=$$('button:not([disabled]),a[href],input,select,textarea',modal),first=controls[0],last=controls.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}};
-  modal.addEventListener('keydown',trap);
-  cleanup=()=>{shade.remove();background.forEach((el,i)=>el.inert=previous[i]);modal.removeEventListener('keydown',trap);modal.removeAttribute('aria-modal');if(returnFocus?.isConnected)returnFocus.focus({preventScroll:true})};
- }else modal.showModal();
+ // Native dialogs keep the offer and its backdrop in the same viewport layer.
+ // Restore the page position after dialog focus so opening an offer never jumps.
+ const offerScroll={left:window.scrollX,top:window.scrollY};
+ const returnFocus=document.activeElement;
+ modal.showModal();
+ $('.modal-close',modal).focus({preventScroll:true});
+ window.scrollTo({...offerScroll,behavior:'instant'});
+ cleanup=()=>{if(returnFocus?.isConnected)returnFocus.focus({preventScroll:true})};
  drawOrbs(modal);
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.open)modal.close()});
@@ -41,9 +38,10 @@ function drawOrbs(root=document){
  $$('canvas[data-orb]',root).forEach(c=>{
   if(c.dataset.drawn)return;c.dataset.drawn='1';
   const ctx=c.getContext('2d');if(!ctx)return;
-  const n=+c.dataset.orb,tools=!!c.closest('.tools-page'),hero=!!c.closest('.hero-particles'),promo=!!c.closest('.promo-modal'),live=!!c.closest('.live-orbs');
-  const ring=!live&&!hero&&!promo&&(tools?n===6:n===5),column=!live&&!tools&&!promo&&n===2;
-  c.width=c.height=250;let seed=n+7;
+  const n=+c.dataset.orb,directory=!!c.closest('.directory-card'),tools=!!c.closest('.tools-page'),hero=!!c.closest('.hero-particles'),promo=!!c.closest('.promo-modal'),live=!!c.closest('.live-orbs');
+  const ring=!live&&!hero&&!promo&&(tools?n===6:n===5),column=!live&&!tools&&!promo&&n===2&&innerWidth<=1020;
+  // Large background spheres need enough pixels to keep each particle crisp.
+  c.width=c.height=hero?1000:250;if(hero)ctx.scale(4,4);let seed=n+7;
   const rand=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
   const points=Array.from({length:promo?4200:hero?1800:live?180:1400},()=>{
    let y=rand()*2-1,t=rand()*Math.PI*2,r=Math.sqrt(1-y*y),x=r*Math.cos(t),z=r*Math.sin(t);
@@ -60,8 +58,10 @@ function drawOrbs(root=document){
    if((visible||frame===0)&&frame++%3===0){ctx.clearRect(0,0,250,250);const a=matchMedia('(prefers-reduced-motion: reduce)').matches?0:t*.00006;
     for(const p of points){const x=p.x*Math.cos(a)+p.z*Math.sin(a),z=-p.x*Math.sin(a)+p.z*Math.cos(a);
      ctx.globalAlpha=Math.min(1,(z+1)*.34+(promo?.38:.4));
-     ctx.fillStyle=hero&&tools?(p.r>.82?'#c6e5ff':'#78a9ce'):hero||promo?(p.r>.82?'#f1d98e':'#d4a83a'):tools?(['#477b9e','#a99457','#477b9e','#b29c65','#7a654b','#477b9e','#477b9e'][n%7]):agents[n%8][3];
-     ctx.beginPath();ctx.arc(125+x*(live?120:tools&&n===0?76:94),125+(ring?p.y*2.4+z*.95:p.y)*(live?120:tools&&n===0?76:94),(live?1.8:promo?.45:.48)+p.r*(live?1.3:promo?.45:.65),0,7);ctx.fill();
+     ctx.fillStyle=directory&&!tools?(['#7896a1','#7896a1','#7896a1','#7896a1','#7896a1','#7896a1','#b29c65','#b29c65'][n%8]):hero||promo?(p.r>.82?'#f1d98e':'#d4a83a'):tools?(['#a99457','#b29c65','#a99457','#b29c65','#a99457','#a99457','#7896a1'][n%7]):agents[n%8][3];
+     const radiusX=live?120:tools&&n===0?76:tools&&n===1?100:tools&&n===3?110:94;
+     const radiusY=live?120:tools&&n===0?76:tools&&n===1?80:tools&&n===2?76:tools&&n===3?110:94;
+     ctx.beginPath();ctx.arc(125+x*radiusX,125+(ring?p.y*.55+z*.7:p.y)*radiusY,(live?1.8:hero?.25:promo?.45:.48)+p.r*(live?1.3:hero?.3:promo?.45:.65),0,7);ctx.fill();
     }
    }requestAnimationFrame(paint)
   }requestAnimationFrame(paint)

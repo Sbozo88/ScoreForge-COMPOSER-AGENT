@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 import fitz, pytesseract
 from fastapi import FastAPI, Request, UploadFile, File, Form, HTTPException, Depends
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel, Field
 import store, pipeline, scorexml
 MAX_BYTES=25*1024*1024 # Firebase proxy's 32 MB request ceiling; leave overhead.
@@ -88,6 +88,11 @@ def retry(pid,options:Options):
 def files(pid,kind):
     project(pid)
     if kind=='original.pdf':return FileResponse(store.ROOT/pid/'original.pdf',media_type='application/pdf')
+    if kind=='score-dorico.musicxml':
+        try:
+            data=scorexml.dorico_export(scorexml.load(output(pid)/'score.musicxml'))
+        except ValueError as error: raise HTTPException(422,str(error))
+        return Response(data,media_type='application/vnd.recordare.musicxml+xml',headers={'Content-Disposition':'attachment; filename="score-dorico.musicxml"'})
     if kind not in ('score.musicxml','score.mxl','score.mid','score.pdf'):raise HTTPException(404,'Unknown export')
     directory=output(pid);path=directory/kind
     if not path.exists():raise HTTPException(409,'This export has not been generated.')

@@ -560,3 +560,56 @@ body[data-page="agents"],body[data-page="tools"],.directory{font-size:16px}
 @media(max-width:640px){
  .academy-category .article-card:after{opacity:.45}
 }
+
+/* Match the reference price emphasis and comparison status labels. */
+.price strong{font-weight:700}
+.plans-page .coming-soon{font-size:9px;font-weight:600;letter-spacing:.1em;white-space:nowrap}
+@media(max-width:640px){
+ .plans-page .coming-soon{font-size:10.5px}
+}
+
+/* Align the shared footer with the captured text and column measurements. */
+.footer-links a{color:#ffffffb3;line-height:20px;padding-block:0;margin-bottom:9px}
+.footer-links h2{margin-bottom:26px}
+.footer-parent{align-items:start}
+.footer-parent p{font-size:13px;line-height:1.65}
+.footer-parent .gold-text{font-size:12px;line-height:1.9}
+.footer-parent-row{margin-top:22px}
+.footer-instagram{font-size:12.5px;font-weight:650;min-width:127px;min-height:41px}
+.footer-legal{font-size:12px;gap:26px}
+.footer-legal button{font-size:12px;padding:0}
+@media(min-width:1021px){
+ .footer-main>.footer-links{grid-template-columns:202px 1fr;gap:72px}
+ .footer-link-pair{grid-template-columns:222px 1fr;gap:72px}
+ .footer-parent-row{max-width:869px}
+}
+.directory-index>h2{margin-top:18px}
+.directory-card{background:radial-gradient(ellipse at top right,color-mix(in srgb,var(--card-tint),transparent 90%),transparent 70%),#0816238c}
+@media(min-width:641px) and (max-width:1020px){
+ .tools-page #tool-2 .particle-orb{visibility:hidden}
+}
+@media(max-width:640px){
+ .tools-page #tool-1 .particle-orb,.tools-page #tool-2 .particle-orb{visibility:hidden}
+ .footer-parent .gold-text{display:block}
+ .footer-parent .gold-text a{font-size:12px}
+ .footer-legal{gap:10px 16px;font-size:12px}
+ .footer-legal button{font-size:12px}
+}
+
+/* Keep the tools artwork behind both the heading and its reading column. */
+@media(min-width:1021px){
+ .tools-page .hero-particles{top:40px}
+ .tools-page .hero-particles .particle-orb{width:800px;height:800px}
+}
+@media(min-width:641px) and (max-width:1020px){
+ .tools-page .hero-particles{top:50px}
+ .tools-page .hero-particles .particle-orb{width:680px;height:600px}
+ .tools-page .directory-hero>p:not(.section-label){max-width:552px}
+}
+@media(min-width:641px){
+ .directory-card .particle-orb{margin-bottom:16px}
+}
+@media(max-width:640px){
+ .tools-page .hero-particles{top:90px}
+ .tools-page .hero-particles .particle-orb{height:760px}
+}

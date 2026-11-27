@@ -16,7 +16,21 @@ def load(path):
     return E.parse(str(path),PARSER()).getroot()
 def save(root, path):
     root.set('version','4.0')
-    Path(path).write_bytes(E.tostring(root,xml_declaration=True,encoding='UTF-8'))
+    Path(path).write_bytes(E.tostring(root,xml_declaration=True,encoding='UTF-8',
+        doctype='<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 4.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">'))
+
+def dorico_export(root):
+    """Use the official downgrade transform, never just relabel 4.0 as 3.1."""
+    schema=Path(os.environ.get('MUSICXML_XSD','/opt/musicxml/schema/musicxml.xsd'))
+    stylesheet=schema.with_name('to31.xsl')
+    if not stylesheet.is_file():
+        raise ValueError('The MusicXML 3.1 compatibility stylesheet is missing. Reinstall the worker MusicXML schemas.')
+    transform=E.XSLT(E.parse(str(stylesheet),PARSER()),access_control=E.XSLTAccessControl.DENY_ALL)
+    result=transform(copy.deepcopy(root))
+    # Validate the transformed structure and independently parse its musical content.
+    E.XMLSchema(E.parse(str(schema),_schema_parser(schema.parent))).assertValid(result)
+    converter.parseData(bytes(result).decode('utf-8'),format='musicxml')
+    return bytes(result)
 def _schema_parser(schema_dir):
     class LocalSchemaResolver(E.Resolver):
         def resolve(self, url, pubid, context):
@@ -46,15 +60,23 @@ def validate(root, lyric_expected=False):
                 if time is not None and time.find('beats') is not None:
                     beats=sum(int(x) for x in time.findtext('beats').split('+'));beat_type=int(time.findtext('beat-type','4'))
             if divisions<1: raise ValueError('Invalid duration divisions.')
-            cursor=Fraction(0); high=Fraction(0); prev=Fraction(0)
+            cursor=Fraction(0); high=Fraction(0); prev=Fraction(0); previous_note=None
             for child in measure:
+                if child.tag=='attributes' and child.find('divisions') is not None:
+                    divisions=int(child.findtext('divisions'))
+                    if divisions<1: raise ValueError('Invalid duration divisions.')
                 duration=Fraction(child.findtext('duration','0'))/divisions
                 if child.tag=='backup': cursor-=duration
-                elif child.tag=='forward': cursor+=duration
+                elif child.tag=='forward': cursor+=duration;high=max(high,cursor)
                 elif child.tag=='note' and child.find('grace') is None:
+                    if duration<=0: raise ValueError(f"{part.get('id')}, bar {measure.get('number')}: note has no positive duration.")
+                    if child.find('chord') is not None and previous_note is None:
+                        raise ValueError(f"{part.get('id')}, bar {measure.get('number')}: chord has no preceding note.")
                     if child.find('chord') is None: prev=cursor;cursor+=duration
                     high=max(high,prev+duration)
-                if cursor<0: warnings.append(f"{part.get('id')}, bar {measure.get('number')}: voice backup crosses bar boundary.")
+                if child.tag=='note': previous_note=child
+                elif child.tag in ('backup','forward'): previous_note=None
+                if cursor<0: raise ValueError(f"{part.get('id')}, bar {measure.get('number')}: voice backup crosses bar boundary. Correct the recognition before exporting.")
             expected=Fraction(beats*4,beat_type)
             if high!=expected and measure.get('implicit')!='yes' and len(warnings)<200:
                 warnings.append(f"{part.get('id')}, bar {measure.get('number')}: {high} quarter beats; expected {expected}. Review pickup, tuplet or voice timing.")
@@ -66,7 +88,7 @@ def artifacts(root, directory):
     directory=Path(directory); directory.mkdir(parents=True,exist_ok=True)
     xml=directory/'score.musicxml';save(root,xml)
     with zipfile.ZipFile(directory/'score.mxl','w',zipfile.ZIP_DEFLATED) as z:
-        z.writestr('mimetype','application/vnd.recordare.musicxml')
+        z.writestr('mimetype','application/vnd.recordare.musicxml',compress_type=zipfile.ZIP_STORED)
         z.writestr('META-INF/container.xml','<?xml version="1.0"?><container><rootfiles><rootfile full-path="score.musicxml" media-type="application/vnd.recordare.musicxml+xml"/></rootfiles></container>')
         z.write(xml,'score.musicxml')
     converter.parse(str(xml)).write('midi',fp=str(directory/'score.mid'))
@@ -87,7 +109,10 @@ def edit_lyrics(root, part_id, measure_index, entries):
         for lyric in list(note.findall('lyric')):
             if lyric.get('number','1')==verse: note.remove(lyric)
         if not text and not entry.get('extend'): continue
-        lyric=E.SubElement(note,'lyric',number=verse)
+        lyric=E.Element('lyric',number=verse)
+        # MusicXML orders lyrics before performance/listening data.
+        position=next((i for i,x in enumerate(note) if x.tag in ('play','listen')),len(note))
+        note.insert(position,lyric)
         syllabic=entry.get('syllabic','single')
         if syllabic not in ('single','begin','middle','end'): raise ValueError('Invalid hyphenation.')
         if text:

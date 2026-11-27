@@ -2,6 +2,8 @@
 
 Run `npm test` and `npm run build` from `app/`. The build produces ten static preview routes plus the protected Firebase function's site directory. Craft Anything serves the static preview. PDF conversion uses the separate local service described in README.md.
 
+Run `converter/.venv/bin/python tests/scorexml_test.py` for worker export regressions (install `converter/requirements.txt` first). The tests use the local MusicXML schema or `MUSICXML_XSD` and its sibling `to31.xsl`. They check the official 3.1 transformation, preservation of tuplets/voices/lyrics, MXL packaging, lyric element ordering and rhythm validation. In the converter, download the Dorico Pro 6 export for a completed PDF project and open it in Dorico; compare voices, tuplets, transposing instruments and lyrics with the original PDF. A successful parser check alone does not establish Dorico import fidelity.
+
 For a full PDF conversion check, run `npm run converter:start` with Docker Desktop running and open `http://localhost:4173/score-converter/`. Confirm that the service connects, upload a short sheet-music PDF, wait for recognition, and download MusicXML. Restart the services and verify the project persists. Automated gateway tests exercise health, multipart uploads, queued responses, authenticated downloads and foreign-origin rejection; they do not replace a real Audiveris conversion check.
 
 - Open each route and switch specialist tabs with the mouse and arrow keys.

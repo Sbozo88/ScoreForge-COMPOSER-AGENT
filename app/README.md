@@ -15,3 +15,5 @@ The local converter is bound to this computer and has no owner login. Craft Anyt
 Private Firebase hosting code is retained. Owner authentication requires a configured Firebase project and exact owner UID, and remains unverified. Static previews are not access-controlled. Nothing was deployed.
 
 See TESTING.md and VALIDATION.md for coverage and visual comparison limits.
+
+For converted PDFs, Export now includes **Dorico Pro 6 · .musicxml**. This uses the [official MusicXML 4.0 to 3.1 stylesheet](https://www.w3.org/2021/06/musicxml40/listings/to31.xsl/) shipped with the worker, validates the result and checks it with an independent notation parser. It also works on previously converted projects. Standard 4.0 MusicXML and MXL exports remain available. The compatibility export removes features introduced after 3.1; it does not repair incorrect recognition. Review all conversion warnings (expand the additional warnings in the score review panel), compare against the PDF, and open the downloaded file in Dorico. Import into Dorico itself has not been verified here.
